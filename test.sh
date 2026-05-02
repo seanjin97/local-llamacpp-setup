@@ -1,9 +1,10 @@
 #!/bin/sh
 
-# NVIDIA 4070 12GB vRAM, CPU 32GB RAM: ~22 t/s, but struggles with big context
+# NVIDIA 4070 12GB vRAM, CPU 32GB RAM: ~22 t/s
 
 # HuggingFace cache directory for downloaded GGUF weights
 export LLAMA_CACHE="unsloth/Qwen3.6-35B-A3B-GGUF"
+export LLAMA_ARG_CTX_SIZE=32000 # --ctx-size not respected without this for some reason, who knows what else 
 
 ./llama.cpp/llama-server \
     # ── Model Source ──────────────────────────────────────────────
@@ -29,7 +30,7 @@ export LLAMA_CACHE="unsloth/Qwen3.6-35B-A3B-GGUF"
 
     # ── Context / KV Cache ────────────────────────────────────────
     # Context window: 131K tokens (full model capability)
-    --ctx-size 131072 \
+    --ctx-size 32000 \
     # Quantize K cache to Q8_0 — saves ~50% VRAM vs F16 with negligible quality loss
     --cache-type-k q8_0 \
     # Quantize V cache to Q8_0 — same benefit as above
@@ -64,7 +65,7 @@ export LLAMA_CACHE="unsloth/Qwen3.6-35B-A3B-GGUF"
     --dry-allowed-length 2 \
     --dry-penalty-last-n -1 \
     # Presence penalty: >0 encourages topic variety, discourages repetition
-    --presence-penalty 0 \
+    --presence-penalty 0.0 \
     # Repeat penalty for token sequences (1.0 = no penalty)
     --repeat-penalty 1.00 \
     # Consider last N tokens for repeat penalty (-1 = full context)
@@ -89,13 +90,7 @@ export LLAMA_CACHE="unsloth/Qwen3.6-35B-A3B-GGUF"
     --reasoning-budget-message "Okay, enough thinking no more waiting. Let's just jump to it." \
 
     # ── Server Settings ───────────────────────────────────────────
-    # HTTP API server port
-    --port 8001 \
     # Single slot (no parallel request handling — simplest, most stable)
     --parallel 1 \
-    # Enable Prometheus metrics endpoint at /metrics
-    --metrics \
-    # Disable web UI (we're using API only)
-    --no-webui \
     # Don't load multimodal projector (text-only model)
     --no-mmproj
