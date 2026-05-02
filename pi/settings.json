@@ -1,0 +1,10 @@
+{
+  "defaultModel": "unsloth/Qwen3.6-35B-A3B-GGUF:Q6_K_XL",
+  "defaultProvider": "llama-cpp",
+  "defaultThinkingLevel": "high",
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "hideThinkingBlock": false,
+  "enableInstallTelemetry": false
+}

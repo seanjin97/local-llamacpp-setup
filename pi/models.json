@@ -1,0 +1,17 @@
+{
+  "providers": {
+    "llama-cpp": {
+      "api": "openai-completions",
+      "apiKey": "none",
+      "baseUrl": "http://localhost:8080/v1",
+      "models": [
+        {
+          "id": "unsloth/Qwen3.6-35B-A3B-GGUF:Q6_K_XL",
+          "contextWindow": 32000,
+          "input": ["text"],
+          "reasoning": true
+        }
+      ]
+    }
+  }
+}
