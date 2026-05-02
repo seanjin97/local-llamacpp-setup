@@ -43,7 +43,7 @@ ln -s /mnt/c/Users/<ur username>/.aws ~/.aws
 
 #### If you see some weird error like
 
-## 4: Symlink to the actual agents repository for the agent to auto discover it
+## 4: Symlink to the actual agent's extensions for the agent to auto discover it
 
 ```sh
 ln -s "$(pwd)/extensions" ~/.pi/agent
